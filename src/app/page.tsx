@@ -1,19 +1,8 @@
 import Link from "next/link";
+import {db} from "../../prisma/db";
 
-export default function Home() {
-
-  const noticias = [
-    {
-      id:"1",
-      titulo:"Noticias Teste",
-      descricao:"Uma noticia qualquer"
-    },
-    {
-      id:"2",
-      titulo:"Teste Noticia",
-      descricao:"Noticia aleatória para teste"
-    }
-  ]
+export default async function Home() {
+  const noticias = await db.noticia.findMany()
 
   return (
     <div className="w-full px-4 py-8">
@@ -29,7 +18,7 @@ export default function Home() {
             <div key={noticia.id} className="max-w-4xl w-full mb-4 bg-white shadow-md rounded-lg border">
               <div className="p-4">
                 <h2 className="text-xl font-semibold mb-2">{noticia.titulo}</h2>
-                <p className="text-gray-700 mb-4 line-clamp-2">{noticia.descricao}</p>
+                <p className="text-gray-700 mb-4 line-clamp-2">{noticia.description}</p>
                 <Link className="text-sky-600 hover:text-sky-800" href={`/noticia/${noticia.id}`}>Veja Mais &gt;</Link>
               </div>
             </div>

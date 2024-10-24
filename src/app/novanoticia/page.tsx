@@ -1,10 +1,9 @@
 "use client"
-import TextArea from "../components/TextArea";
-import TextInput from "../components/TextInput";
-import Button from "../components/Button";
+import TextArea from "@/components/TextArea";
+import TextInput from "@/components/TextInput";
+import Button from "@/components/Button";
 import Link from "next/link";
 import { FormEvent } from "react";
-
 
 export default function NovaNoticia() {
 
@@ -16,14 +15,22 @@ export default function NovaNoticia() {
             imagem:{value: string}
         }
     }) {
-
+        evento.preventDefault()
         const titulo = evento.target.titulo.value
         const descricao = evento.target.descricao.value
         const conteudo = evento.target.conteudo.value
         const imagem = evento.target.imagem.value
         
-        alert(titulo+descricao+conteudo+imagem)
-        alert(evento.target.titulo.value)
+        const response = await fetch('/api/noticia', {
+            method:'POST',
+            body: JSON.stringify({titulo, descricao, conteudo, imagem})
+        })
+        // @ts-ignore
+        const data:{
+            status:number,
+            mensagem:string,
+        } = await response.json()
+        alert(data.mensagem)
     }
 
     return (
